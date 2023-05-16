@@ -9,6 +9,7 @@ import ManageTips from '../screens/Admin/ManageTips';
 import CreateTip from '../screens/Admin/CreateTip';
 import ManageOrderofService from '../screens/Admin/ManageOrderofService';
 import OrderViewer from '../screens/Admin/OrderViewer';
+import OrderView from '../screens/Admin/OrderView';
 
 const Stack = createStackNavigator();
 
@@ -26,7 +27,7 @@ export default function AdminRoutes() {
             <Stack.Screen name="CreateNotification" component={CreateNotification} />
             <Stack.Screen name="ManageTips" component={ManageTips} />
             <Stack.Screen name="CreateTip" component={CreateTip} />
-            <Stack.Screen name="OrderViewer" component={OrderViewer} />
+            <Stack.Screen name="OrderView" component={OrderView} />
         </Stack.Navigator>
     );
 }

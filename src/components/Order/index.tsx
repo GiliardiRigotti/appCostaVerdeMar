@@ -11,7 +11,7 @@ export default function Order({ data, type = 'user' }: Props) {
     const navigation = useNavigation()
     if (type == 'admin') {
         return (
-            <ContainerTouch onPress={() => navigation.navigate("OrderViewer", { data: data })}>
+            <ContainerTouch onPress={() => navigation.navigate("OrderView", { data: data })}>
                 <Title>
                     {data.title}
                 </Title>
