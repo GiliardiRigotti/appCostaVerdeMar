@@ -14,6 +14,7 @@ import Order from "../../../components/Order";
 export default function ManageOrders() {
     const navigation = useNavigation()
     const { listOrders } = useContext(AppContext)
+    console.log(listOrders)
     return (
         <>
             <Header title="Suporte" />

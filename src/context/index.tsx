@@ -367,6 +367,7 @@ function AppProvider({ children }: any) {
                     ...docs.data()
                 }
             }) as IOrder[]
+            console.log(data)
             setListOrders(data)
         })
     }, [])
@@ -385,11 +386,11 @@ function AppProvider({ children }: any) {
                         email,
                         password
                     }, storageKey.user)
-                    await getListNotifications()
-                    await getListOrderOfService()
-                    await getListTips()
                     await getListUsers()
                 }
+                await getListNotifications()
+                await getListOrderOfService()
+                await getListTips()
             });
             setUserSigned(true)
             return true

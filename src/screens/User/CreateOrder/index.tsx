@@ -19,7 +19,7 @@ export default function CreateOrder() {
         title: "",
         description: "",
         idClient: userAuth?.id,
-        status: "open"
+        status: 'open',
     })
     const navigation = useNavigation()
 
@@ -35,51 +35,51 @@ export default function CreateOrder() {
                         type: "success",
                         duration: 2000
                     })
-                    navigation.navigate("ManageOrders")
-                    setIsLoad(false)
-                    return
+
                 }
+            } else {
+                showNotification({
+                    title: "Aviso",
+                    description: "Preencha os campos corretamente",
+                    type: "warn",
+                    duration: 2000
+                })
             }
-            setIsLoad(false)
-            showNotification({
-                title: "Aviso",
-                description: "Preencha os campos corretamente",
-                type: "warn",
-                duration: 2000
-            })
+            navigation.navigate("ManageOrders")
         } catch (error) {
-            setIsLoad(false)
             showNotification({
                 title: "Aviso",
                 description: "Erro ao abrir o chamado, tenta mais tarde",
                 type: "error",
                 duration: 2000
             })
+        } finally {
+            setIsLoad(false)
         }
     }
     return (
         <>
             <Header title="Abertura de chamado técnico" />
-                <Container>
-                    <Input title="Titulo" onChangeText={(value) => setForm({ ...form, title: value })} />
-                    <Input title="Descrição" onChangeText={(value) => setForm({ ...form, description: value })} textArea/>
-                    
-                    <Button onPress={handleSignUp} disabled={isLoad}>
-                        {
-                            isLoad?
-                            <ActivityIndicator size={20} color={colors.white} animating/>
+            <Container>
+                <Input title="Titulo" onChangeText={(value) => setForm({ ...form, title: value })} />
+                <Input title="Descrição" onChangeText={(value) => setForm({ ...form, description: value })} textArea />
+
+                <Button onPress={handleSignUp} disabled={isLoad}>
+                    {
+                        isLoad ?
+                            <ActivityIndicator size={20} color={colors.white} animating />
                             :
                             <ButtonTitle>
                                 Abrir chamado
                             </ButtonTitle>
-                        }
-                    </Button>
-                    <ButtonCancel onPress={() => navigation.navigate("Home")} disabled={isLoad}>
-                        <ButtonTitle>
-                            Cancelar
-                        </ButtonTitle>
-                    </ButtonCancel>
-                </Container>
+                    }
+                </Button>
+                <ButtonCancel onPress={() => navigation.navigate("Home")} disabled={isLoad}>
+                    <ButtonTitle>
+                        Cancelar
+                    </ButtonTitle>
+                </ButtonCancel>
+            </Container>
         </>
     )
 }

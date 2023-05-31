@@ -1,5 +1,5 @@
 interface IOrder {
-    id: string,
+    id?: string,
     idClient: string
     title: string
     description: string
