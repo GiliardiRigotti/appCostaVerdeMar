@@ -1,6 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import React from "react";
 import { Container, ContainerTouch, Description, Label, Status, Title, Wrapper } from "./styles";
+import { View } from "react-native";
 
 interface Props {
     data: IOrder
@@ -11,7 +12,7 @@ export default function Order({ data, type = 'user' }: Props) {
     const navigation = useNavigation()
     if (type == 'admin') {
         return (
-            <ContainerTouch onPress={() => navigation.navigate("OrderView", { data: data })}>
+            <ContainerTouch style={{ borderColor: data.status == "open" ? "green" : data.status == "close" ? "red" : "orange" }} onPress={() => navigation.navigate("OrderView", { data: data })}>
                 <Title>
                     {data.title}
                 </Title>

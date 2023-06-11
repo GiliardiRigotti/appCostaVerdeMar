@@ -12,7 +12,7 @@ export const ContainerTouch = styled.TouchableOpacity`
     margin-top: 10px;
     padding: 5px;
     width: 80%;
-    border-width: 1px;
+    border-width: 2px;
     border-radius: 8px;
 `;
 

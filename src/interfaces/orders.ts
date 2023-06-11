@@ -7,6 +7,8 @@ interface IOrder {
     items?: IItems[]
     status?: 'open' | 'working' | 'close'
     laborPrice?: number
+    close?: string
+    create_at?: string
 }
 
 interface IItems {

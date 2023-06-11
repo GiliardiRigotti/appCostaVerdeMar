@@ -6,6 +6,7 @@ import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../../context";
 import { ActivityIndicator, TextInput } from "react-native";
 import Input from "../../../components/Input";
+import { serverTimestamp } from "firebase/firestore";
 
 interface Props {
     data: IOrder
@@ -35,11 +36,12 @@ export default function OrderView() {
     async function handleUpdateStatusOrder() {
         setLoad(true)
         try {
-            if (data.status == "aberto") {
-                await updateOrder(data.id, { ...data, status: "em andamento" })
+            const dateTime = serverTimestamp()
+            if (data.status == "open") {
+                await updateOrder(data.id, { ...data, status: "working", })
                 return
-            } else if (data.status == "em andamento") {
-                await updateOrder(data.id, { ...data, items: items, status: "finalizado" })
+            } else if (data.status == "working") {
+                await updateOrder(data.id, { ...data, items: items, status: "close" })
                 return
             }
 
@@ -100,13 +102,13 @@ export default function OrderView() {
                             </Description>
                         </Box>
                         {
-                            data.status == "finalizado" ?
+                            data.status == "close" ?
                                 <Box>
                                     <Label>
                                         Data Conclusão
                                     </Label>
                                     <Description>
-                                        {data.close_at}
+                                        {data.close}
                                     </Description>
                                 </Box>
                                 :
@@ -132,11 +134,11 @@ export default function OrderView() {
                         </Box>
                     }
                     {
-                        data.status == "em andamento" &&
+                        data.status == "working" &&
                         <Input title="Solução" textArea onChangeText={(value) => setForm({ ...form, solution: value })} width={95} />
                     }
                     {
-                        data.status == "em andamento" &&
+                        data.status == "working" &&
                         <>
                             {
                                 items.length > 0 &&
@@ -211,7 +213,7 @@ export default function OrderView() {
                             <Wrapper>
                                 <Input title="Nome" onChangeText={(value) => setItem({ ...item, name: value })} width={35} value={item.name} />
                                 <Input title="Quantidade" onChangeText={(value) => setItem({ ...item, amount: parseInt(value) })} keyboard="decimal-pad" width={25} value={item.amount} />
-                                <Input title="Valor Unitario" onChangeText={(value) => setItem({ ...item, price: parseInt(value) })} keyboard="decimal-pad" width={25} value={item.price} />
+                                <Input title="Valor" onChangeText={(value) => setItem({ ...item, price: parseInt(value) })} keyboard="decimal-pad" width={25} value={item.price} />
                             </Wrapper>
                             <Button onPress={handleAddItemToItems}>
                                 <ButtonTitle>
@@ -222,13 +224,13 @@ export default function OrderView() {
                     }
                 </Card>
                 {
-                    data.status !== "finalizado" &&
-                    <Button style={{ backgroundColor: data.status == "em andamento" ? colors.red : colors.green }} onPress={handleUpdateStatusOrder}>
+                    data.status !== "close" &&
+                    <Button style={{ backgroundColor: data.status == "working" ? colors.red : colors.green }} onPress={handleUpdateStatusOrder}>
                         {
                             load ?
                                 <ActivityIndicator size={20} color={colors.white} animating />
                                 :
-                                data.status == "em andamento" ?
+                                data.status == "working" ?
                                     <ButtonTitle>
                                         Finalizar a manutenção
                                     </ButtonTitle>

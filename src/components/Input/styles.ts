@@ -3,7 +3,6 @@ import { colors } from "../../constants/colors"
 
 export const Container = styled.View`
     margin-top:15px;
-    width:60%;
 `;
 
 export const Box = styled.View`

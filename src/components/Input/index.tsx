@@ -7,11 +7,12 @@ interface Props {
     secureTextEntry?: boolean
     textArea?: boolean
     value?: string
+    width?: number
 }
 
-export default function Input({ title, onChangeText, placeholder, secureTextEntry = false, textArea = false, value }: Props) {
+export default function Input({ title, onChangeText, placeholder, secureTextEntry = false, textArea = false, value, width = 50 }: Props) {
     return (
-        <Container>
+        <Container style={{ width: `${width}%` }}>
             <Title>
                 {title}
             </Title>
