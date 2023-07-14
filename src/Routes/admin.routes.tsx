@@ -8,7 +8,6 @@ import CreateNotification from '../screens/Admin/CreateNotification';
 import ManageTips from '../screens/Admin/ManageTips';
 import CreateTip from '../screens/Admin/CreateTip';
 import ManageOrderofService from '../screens/Admin/ManageOrderofService';
-import OrderViewer from '../screens/Admin/OrderViewer';
 import OrderView from '../screens/Admin/OrderView';
 
 const Stack = createStackNavigator();

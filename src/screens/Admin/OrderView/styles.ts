@@ -16,7 +16,7 @@ export const Card = styled.View`
 `;
 
 export const Wrapper = styled.View`
-  width: 95%;
+  width: 100%;
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
@@ -32,8 +32,13 @@ export const Label = styled.Text`
     color:${colors.blue};
 `;
 
+export const Title = styled.Text`
+    font-size:10px;
+    font-weight: bold;
+`;
+
 export const Description = styled.Text`
-    font-size:16px;
+    font-size:10px;
 `;
 
 export const Item = styled.View`
@@ -51,7 +56,7 @@ export const Button = styled.TouchableOpacity`
 `;
 
 export const ButtonTitle = styled.Text`
-    font-size: 16px
+    font-size: 16px;
     font-weight:bold;
     color:${colors.white};
 `;

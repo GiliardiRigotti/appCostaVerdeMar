@@ -1,6 +1,6 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Header from "../../../components/Header";
-import { Box, Button, ButtonTitle, Card, Container, Description, Item, Label, List, Wrapper } from "./styles";
+import { Box, Button, ButtonTitle, Card, Container, Description, Item, Label, List, Title, Wrapper } from "./styles";
 import { colors } from "../../../constants/colors";
 import { useContext, useEffect, useState } from "react";
 import { AppContext } from "../../../context";
@@ -18,7 +18,7 @@ interface Items {
     price: number | null
 }
 
-export default function OrderView() {
+export default function OrderView({ navigation }) {
     const route = useRoute()
     const { data } = route.params as Props
     const [load, setLoad] = useState<boolean>(false)
@@ -31,7 +31,6 @@ export default function OrderView() {
         price: 0
     })
     const { updateOrder } = useContext(AppContext)
-    const navigation = useNavigation()
 
     async function handleUpdateStatusOrder() {
         setLoad(true)
@@ -39,9 +38,11 @@ export default function OrderView() {
             const dateTime = serverTimestamp()
             if (data.status == "open") {
                 await updateOrder(data.id, { ...data, status: "working", })
+                navigation.navigate('ManageOrderofService')
                 return
             } else if (data.status == "working") {
                 await updateOrder(data.id, { ...data, items: items, status: "close" })
+                navigation.navigate('ManageOrderofService')
                 return
             }
 
@@ -149,24 +150,24 @@ export default function OrderView() {
                                     <List>
                                         <Wrapper>
                                             <Item>
-                                                <Description>
+                                                <Title>
                                                     Item
-                                                </Description>
+                                                </Title>
                                             </Item>
                                             <Item>
-                                                <Description>
+                                                <Title>
                                                     Quantidade
-                                                </Description>
+                                                </Title>
                                             </Item>
                                             <Item>
-                                                <Description>
+                                                <Title>
                                                     Valor Unitario
-                                                </Description>
+                                                </Title>
                                             </Item>
                                             <Item>
-                                                <Description>
+                                                <Title>
                                                     Valor
-                                                </Description>
+                                                </Title>
                                             </Item>
                                         </Wrapper>
                                         {
@@ -184,12 +185,12 @@ export default function OrderView() {
                                                     </Item>
                                                     <Item>
                                                         <Description>
-                                                            R${item.price}
+                                                            R${' ' + item.price}
                                                         </Description>
                                                     </Item>
                                                     <Item>
                                                         <Description>
-                                                            R${item.amount * item.price}
+                                                            R${' ' + item.amount * item.price}
                                                         </Description>
                                                     </Item>
                                                 </Wrapper>
@@ -197,14 +198,15 @@ export default function OrderView() {
                                         }
                                         <Wrapper>
                                             <Item>
-                                                <Description>
+                                                <Title>
                                                     Total
-                                                </Description>
+                                                </Title>
                                             </Item>
                                             <Item>
-                                                <Description>
-                                                    {totalPrice}
-                                                </Description>
+                                                <Title>
+                                                    R$
+                                                    {' ' + totalPrice}
+                                                </Title>
                                             </Item>
                                         </Wrapper>
                                     </List>
@@ -212,8 +214,8 @@ export default function OrderView() {
                             }
                             <Wrapper>
                                 <Input title="Nome" onChangeText={(value) => setItem({ ...item, name: value })} width={35} value={item.name} />
-                                <Input title="Quantidade" onChangeText={(value) => setItem({ ...item, amount: parseInt(value) })} keyboard="decimal-pad" width={25} value={item.amount} />
-                                <Input title="Valor" onChangeText={(value) => setItem({ ...item, price: parseInt(value) })} keyboard="decimal-pad" width={25} value={item.price} />
+                                <Input title="Quantidade" onChangeText={(value) => setItem({ ...item, amount: parseInt(value) })} keyboard="decimal-pad" width={25} value={item.amount.toString()} />
+                                <Input title="Valor" onChangeText={(value) => setItem({ ...item, price: parseInt(value) })} keyboard="decimal-pad" width={25} value={item.price.toString()} />
                             </Wrapper>
                             <Button onPress={handleAddItemToItems}>
                                 <ButtonTitle>

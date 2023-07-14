@@ -8,9 +8,10 @@ interface Props {
     textArea?: boolean
     value?: string
     width?: number
+    keyboardType?: "decimal-pad" | "default"
 }
 
-export default function Input({ title, onChangeText, placeholder, secureTextEntry = false, textArea = false, value, width = 50 }: Props) {
+export default function Input({ title, onChangeText, placeholder, secureTextEntry = false, textArea = false, value, width = 50, keyboardType = "default" }: Props) {
     return (
         <Container style={{ width: `${width}%` }}>
             <Title>
@@ -27,9 +28,10 @@ export default function Input({ title, onChangeText, placeholder, secureTextEntr
                             multiline={true}
                             numberOfLines={10}
                             value={value}
+                            keyboardType={keyboardType}
                         />
                         :
-                        <TextInput placeholder={placeholder} onChangeText={onChangeText} secureTextEntry={secureTextEntry} value={value} />
+                        <TextInput placeholder={placeholder} onChangeText={onChangeText} secureTextEntry={secureTextEntry} value={value} keyboardType={keyboardType} />
                 }
             </Box>
         </Container>

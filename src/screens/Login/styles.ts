@@ -3,7 +3,7 @@ import { colors } from "../../constants/colors";
 
 export const Button = styled.TouchableOpacity`
     margin-top:8px;
-    width:60%;
+    width:50%;
     height:5%;
     background-color:${colors.green};
     border-radius:8px;
