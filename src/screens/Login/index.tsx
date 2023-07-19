@@ -1,17 +1,14 @@
 import { ActivityIndicator, Image, KeyboardAvoidingView } from "react-native";
 import Input from "../../components/Input";
 import { images } from "../../assets/images";
-import { Button, ButtonTitle, Link, LinkTitle } from "./styles";
+import { Button, ButtonTitle, Container, Link, LinkTitle } from "./styles";
 import { useContext, useState } from "react";
 import { ISignIn } from "../../interfaces/user";
-import { useNavigation } from "@react-navigation/native";
 import { showNotification } from "../../utils/notification";
 import { AppContext } from "../../context";
-import { Container } from "../../styles/global";
 import { colors } from "../../constants/colors";
 
 export default function Login() {
-    const navigation = useNavigation()
     const [isLoad, setIsLoad] = useState<boolean>(false)
     const { login, findUser, userAuth } = useContext(AppContext)
     const [formLogin, setFormLogin] = useState<ISignIn>({
@@ -54,19 +51,11 @@ export default function Login() {
 
     return (
         <Container>
-            <KeyboardAvoidingView
-                behavior="position"
-                keyboardVerticalOffset={40}
-                contentContainerStyle={{
-                    alignItems: "center",
-                    width: "100%",
-                }}
-                style={{ width: "100%" }}
-            >
-                <Image source={images.logo} style={{ width: 450, height: 300, resizeMode: "contain" }} />
-                <Input title="E-mail" onChangeText={(value) => setFormLogin({ ...formLogin, email: value })} placeholder="exemplo@email.com" />
-                <Input title="Senha" onChangeText={(value) => setFormLogin({ ...formLogin, password: value })} placeholder="senha" secureTextEntry />
-            </KeyboardAvoidingView>
+
+            <Image source={images.logo} style={{ width: 450, height: 300, resizeMode: "contain" }} />
+            <Input title="E-mail" onChangeText={(value) => setFormLogin({ ...formLogin, email: value })} placeholder="exemplo@email.com" width={80} />
+            <Input title="Senha" onChangeText={(value) => setFormLogin({ ...formLogin, password: value })} placeholder="senha" secureTextEntry width={80} />
+
             <Button onPress={handleSignIn} disable={isLoad}>
                 {
                     isLoad ?

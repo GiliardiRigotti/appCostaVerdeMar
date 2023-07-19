@@ -1,13 +1,13 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react'
 
-import { ISignIn, IUser, IUserAuth } from '../interfaces/user';
+import { ISignIn, IUser } from '../interfaces/user';
 import { INotification } from '../interfaces/notification';
 import { ITip } from '../interfaces/tip';
 import { showNotification } from '../utils/notification';
-import { QuerySnapshot, addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import database from '../config/firebase';
-import { useNavigation } from '@react-navigation/native';
+import { IOrder } from '../interfaces/orders';
 
 
 interface AppContextData {
@@ -47,7 +47,6 @@ const storageKey = {
 const AppContext = createContext({} as AppContextData)
 
 function AppProvider({ children }: any) {
-    const navigation = useNavigation()
     const [userSigned, setUserSigned] = useState(false)
     const [userAuth, setUserAuth] = useState<IUser | null>(null)
     const [listUsers, setListUsers] = useState<IUser[]>([])

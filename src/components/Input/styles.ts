@@ -8,7 +8,7 @@ export const Container = styled.View`
 export const Box = styled.View`
     border-width:1px;
     border-radius:8px;
-    color:${colors.green};
+    border-color:${colors.gray};
 `;
 
 export const Title = styled.Text`
@@ -17,7 +17,7 @@ export const Title = styled.Text`
 `;
 
 export const TextInput = styled.TextInput`
-    padding-left:5px;
-    padding-top:3px;
-    padding-bottom:3px;
+    padding:5px;
+    background-color: ${colors.white};
+    border-radius: 8px;
 `;

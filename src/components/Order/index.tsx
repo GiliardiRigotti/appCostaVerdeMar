@@ -1,7 +1,9 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
+import React, { useContext } from "react";
 import { Container, ContainerTouch, Description, Label, Status, Title, Wrapper } from "./styles";
+import { IOrder } from "../../interfaces/orders";
 import { View } from "react-native";
+import { AppContext } from "../../context";
 
 interface Props {
     data: IOrder
@@ -10,39 +12,49 @@ interface Props {
 
 export default function Order({ data, type = 'user' }: Props) {
     const navigation = useNavigation()
-    if (type == 'admin') {
+    const { userAuth } = useContext(AppContext)
+    console.log(userAuth.administrator)
+    if (userAuth.administrator) {
         return (
-            <ContainerTouch style={{ borderColor: data.status == "open" ? "green" : data.status == "close" ? "red" : "orange" }} onPress={() => navigation.navigate("OrderView", { data: data })}>
+            <ContainerTouch style={{ borderColor: data.status == "aberto" ? "green" : data.status == "finalizado" ? "red" : "orange" }} onPress={() => navigation.navigate("OrderView", { data: data })}>
+                <Label>
+                    Titulo:
+                </Label>
                 <Title>
                     {data.title}
                 </Title>
                 <Label>
                     Descrição:
                 </Label>
+                <Description>
+                    {data.description}
+                </Description>
                 <Wrapper>
-                    <Description>
-                        {data.description}
-                    </Description>
+                    <View>
+                        <Label>
+                            Status:
+                        </Label>
+                        <Status>
+                            {data.status.toUpperCase()}
+                        </Status>
+                    </View>
+                    <View>
+                        <Label>
+                            Data da abertura:
+                        </Label>
+                        <Status>
+                            {data.create_at}
+                        </Status>
+                    </View>
                 </Wrapper>
-                <Label>
-                    Status:
-                </Label>
-                <Status>
-                    {
-                        data.status == "open" ?
-                            "Aberto"
-                            :
-                            data.status == "close" ?
-                                "Finalizado"
-                                :
-                                "Em Andamento"
-                    }
-                </Status>
             </ContainerTouch>
         )
     }
     return (
-        <Container>
+        <Container style={{ borderColor: data.status == "aberto" ? "green" : data.status == "finalizado" ? "red" : "orange" }} >
+            <Label>
+                Titulo:
+            </Label>
             <Title>
                 {data.title}
             </Title>
@@ -54,20 +66,37 @@ export default function Order({ data, type = 'user' }: Props) {
                     {data.description}
                 </Description>
             </Wrapper>
-            <Label>
-                Status:
-            </Label>
-            <Status>
-                {
-                    data.status == "open" ?
-                        "Aberto"
-                        :
-                        data.status == "close" ?
-                            "Finalizado"
-                            :
-                            "Em Andamento"
-                }
-            </Status>
+            {
+                data.solution &&
+                <>
+                    <Label>
+                        Solução:
+                    </Label>
+                    <Wrapper>
+                        <Description>
+                            {data.solution}
+                        </Description>
+                    </Wrapper>
+                </>
+            }
+            <Wrapper>
+                <View>
+                    <Label>
+                        Status:
+                    </Label>
+                    <Status>
+                        {data.status.toUpperCase()}
+                    </Status>
+                </View>
+                <View>
+                    <Label>
+                        Data da abertura:
+                    </Label>
+                    <Status>
+                        {data.create_at}
+                    </Status>
+                </View>
+            </Wrapper>
         </Container>
     )
 }

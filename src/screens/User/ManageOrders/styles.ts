@@ -1,6 +1,17 @@
 import styled from 'styled-components/native';
 import { colors } from '../../../constants/colors';
 
+export const ContainerScroll = styled.ScrollView.attrs({
+    style: {
+        width: '100%',
+    },
+    contentContainerStyle: {
+        width: '100%',
+        backgroundColor: colors.white
+    }
+})`
+`;
+
 export const Button = styled.TouchableOpacity`
     margin-top:20px;
     width:60%;

@@ -26,10 +26,10 @@ export default function Card({ title, description, goTo, icon, bgColor, fontColo
                         {description}
                     </Description>
                 }
-                {
+                {/* {
                     icon &&
                     <Icon name={icon} size={26} color={fontColor} />
-                }
+                } */}
             </Wrapper>
         </Container>
     )

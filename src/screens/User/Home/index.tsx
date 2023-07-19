@@ -4,7 +4,7 @@ import Footer from "../../../components/Footer";
 import Header from "../../../components/Header";
 import { colors } from "../../../constants/colors";
 import { AppContext } from "../../../context";
-import { Container } from "../../../styles/global";
+import { Container } from "./styles";
 
 
 export default function Home() {
@@ -16,7 +16,7 @@ export default function Home() {
                 <Card
                     title="Suporte"
                     description="Abrir chamados tecnicos "
-                    goTo="ManageOrders" bgColor={colors.green}
+                    goTo="OpenOrders" bgColor={colors.green}
                     fontColor={colors.white}
                 />
                 <Card

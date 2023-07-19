@@ -17,7 +17,7 @@ export default function UserRoutes() {
                 headerShown: false
             }}>
             <Stack.Screen name="Home" component={Home} />
-            <Stack.Screen name="ManageOrders" component={ManageOrders} />
+            <Stack.Screen name="OpenOrders" component={ManageOrders} />
             <Stack.Screen name="CreateOrder" component={CreateOrder} />
             <Stack.Screen name="ListNotifications" component={ListNotifications} />
             <Stack.Screen name="ListTips" component={ListTips} />

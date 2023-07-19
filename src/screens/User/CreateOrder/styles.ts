@@ -3,8 +3,8 @@ import { colors } from "../../../constants/colors";
 
 export const Button = styled.TouchableOpacity`
     margin-top:10px;
-    width:60%;
-    height:5%;
+    width:100%;
+    height:50px;
     background-color:${colors.green};
     border-radius:8px;
     align-items: center;
@@ -12,15 +12,15 @@ export const Button = styled.TouchableOpacity`
 `;
 
 export const ButtonTitle = styled.Text`
-    font-size: 16px
+    font-size: 16px;
     font-weight:bold;
     color:${colors.white};
 `;
 
 export const ButtonCancel = styled.TouchableOpacity`
     margin-top:8px;
-    width:60%;
-    height:5%;
+    width:100%;
+    height:50px;
     background-color:${colors.red};
     border-radius:8px;
     align-items: center;

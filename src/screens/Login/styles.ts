@@ -3,8 +3,8 @@ import { colors } from "../../constants/colors";
 
 export const Button = styled.TouchableOpacity`
     margin-top:8px;
-    width:50%;
-    height:5%;
+    width:80%;
+    height:40px;
     background-color:${colors.green};
     border-radius:8px;
     align-items: center;
@@ -31,17 +31,10 @@ export const LinkTitle = styled.Text`
     color:${colors.blue};
 `;
 
-export const Container = styled.KeyboardAvoidingView.attrs({
-    behavior: "position",
-    enabled: true,
-    contentContainerStyle: {
-        flex: 1,
-        width: "100%",
-        alignItems: "center",
-        justifyContent: "center"
-    }
-})`
-height:100%;
-width:100%;
-align-items:center;
+export const Container = styled.View`
+    flex:1;
+    background-color:${colors.white};
+    padding: 20px;
+    align-items: center;
+    justify-content: center;
 `;

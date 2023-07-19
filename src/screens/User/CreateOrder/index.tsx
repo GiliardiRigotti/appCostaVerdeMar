@@ -1,27 +1,27 @@
-import { useNavigation } from "@react-navigation/native";
-
 import Header from "../../../components/Header";
 import Input from "../../../components/Input";
 import { Container } from "../../../styles/global";
 import { Button, ButtonCancel, ButtonTitle } from "./styles";
 import { showNotification } from "../../../utils/notification";
-import { IUser } from "../../../interfaces/user";
 import { useContext, useState } from "react";
 import { AppContext } from "../../../context";
 import Checkbox from "../../../components/Checkbox";
 import { ActivityIndicator, KeyboardAvoidingView, Platform } from "react-native";
 import { colors } from "../../../constants/colors";
+import { serverTimestamp } from "firebase/firestore";
+import { IOrder } from "../../../interfaces/orders";
 
-export default function CreateOrder() {
+export default function CreateOrder({ navigation }) {
     const { createOrder, userAuth } = useContext(AppContext)
     const [isLoad, setIsLoad] = useState<boolean>(false)
+    const date = `${new Date().getDate()}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`
     const [form, setForm] = useState<IOrder>({
         title: "",
         description: "",
         idClient: userAuth?.id,
-        status: 'open',
+        status: 'aberto',
+        create_at: date,
     })
-    const navigation = useNavigation()
 
     async function handleSignUp() {
         try {
@@ -45,7 +45,7 @@ export default function CreateOrder() {
                     duration: 2000
                 })
             }
-            navigation.navigate("ManageOrders")
+            navigation.navigate("OpenOrders")
         } catch (error) {
             showNotification({
                 title: "Aviso",
@@ -61,8 +61,8 @@ export default function CreateOrder() {
         <>
             <Header title="Abertura de chamado técnico" />
             <Container>
-                <Input title="Titulo" onChangeText={(value) => setForm({ ...form, title: value })} />
-                <Input title="Descrição" onChangeText={(value) => setForm({ ...form, description: value })} textArea />
+                <Input title="Titulo" onChangeText={(value) => setForm({ ...form, title: value })} width={100} />
+                <Input title="Descrição" onChangeText={(value) => setForm({ ...form, description: value })} width={100} textArea />
 
                 <Button onPress={handleSignUp} disabled={isLoad}>
                     {
@@ -74,7 +74,7 @@ export default function CreateOrder() {
                             </ButtonTitle>
                     }
                 </Button>
-                <ButtonCancel onPress={() => navigation.navigate("Home")} disabled={isLoad}>
+                <ButtonCancel onPress={() => navigation.navigate("OpenOrders")} disabled={isLoad}>
                     <ButtonTitle>
                         Cancelar
                     </ButtonTitle>

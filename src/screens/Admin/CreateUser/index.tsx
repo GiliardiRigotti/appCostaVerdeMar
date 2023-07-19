@@ -51,7 +51,7 @@ export default function CreateUser() {
                 navigation.canGoBack()
             } else {
                 await createUser(form)
-                navigation.canGoBack()
+                navigation.goBack()
             }
 
         } else {

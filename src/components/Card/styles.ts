@@ -4,7 +4,6 @@ import { colors } from "../../constants/colors";
 export const Container = styled.TouchableOpacity`
     flex-direction:row;
     height:20%;
-    width:90%;
     border-radius:10px;
     margin-top:10px;
     padding:10px;

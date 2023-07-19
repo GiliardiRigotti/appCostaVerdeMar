@@ -1,15 +1,17 @@
 import styled from 'styled-components/native';
 import { colors } from '../../../constants/colors';
 
-export const Container = styled.View`
-  flex:1;
-  align-items: center;
+export const Container = styled.ScrollView.attrs({
+  contentContainerStyle: {
+    alignItems: 'center',
+  },
+})`
 `;
 
-export const Card = styled.View`
+export const Card = styled.KeyboardAvoidingView`
   margin-top: 8px;
   padding:10px;
-  border-radius: 5px;
+  border-radius: 8px;
   background-color:${colors.gray};
   width: 95%;
   align-items:center;
@@ -43,12 +45,15 @@ export const Description = styled.Text`
 
 export const Item = styled.View`
     width: 25%;
+    align-items: center;
+    justify-content: center;
+    margin-top: 2px;
 `;
 
 export const Button = styled.TouchableOpacity`
     margin-top:10px;
-    width:60%;
-    height:5%;
+    width:300px;
+    height:50px;
     background-color:${colors.blue};
     border-radius:8px;
     align-items: center;

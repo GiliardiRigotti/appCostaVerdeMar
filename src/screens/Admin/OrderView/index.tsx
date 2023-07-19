@@ -1,12 +1,12 @@
-import { useNavigation, useRoute } from "@react-navigation/native";
+import { useRoute } from "@react-navigation/native";
 import Header from "../../../components/Header";
 import { Box, Button, ButtonTitle, Card, Container, Description, Item, Label, List, Title, Wrapper } from "./styles";
 import { colors } from "../../../constants/colors";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useState } from "react";
 import { AppContext } from "../../../context";
-import { ActivityIndicator, TextInput } from "react-native";
+import { ActivityIndicator } from "react-native";
 import Input from "../../../components/Input";
-import { serverTimestamp } from "firebase/firestore";
+import { IOrder } from "../../../interfaces/orders";
 
 interface Props {
     data: IOrder
@@ -35,13 +35,13 @@ export default function OrderView({ navigation }) {
     async function handleUpdateStatusOrder() {
         setLoad(true)
         try {
-            const dateTime = serverTimestamp()
-            if (data.status == "open") {
-                await updateOrder(data.id, { ...data, status: "working", })
+            const date = `${new Date().getDate() + 1}/${new Date().getMonth() + 1}/${new Date().getFullYear()}`
+            if (data.status == "aberto") {
+                await updateOrder(data.id, { ...data, status: "executando", })
                 navigation.navigate('ManageOrderofService')
                 return
-            } else if (data.status == "working") {
-                await updateOrder(data.id, { ...data, items: items, status: "close" })
+            } else if (data.status == "executando") {
+                await updateOrder(data.id, { ...data, items: items, status: "finalizado", close_at: date })
                 navigation.navigate('ManageOrderofService')
                 return
             }
@@ -103,7 +103,7 @@ export default function OrderView({ navigation }) {
                             </Description>
                         </Box>
                         {
-                            data.status == "close" ?
+                            data.status == "finalizado" ?
                                 <Box>
                                     <Label>
                                         Data Conclusão
@@ -135,11 +135,11 @@ export default function OrderView({ navigation }) {
                         </Box>
                     }
                     {
-                        data.status == "working" &&
-                        <Input title="Solução" textArea onChangeText={(value) => setForm({ ...form, solution: value })} width={95} />
+                        data.status == "executando" &&
+                        <Input title="Solução" textArea onChangeText={(value) => setForm({ ...form, solution: value })} width={100} />
                     }
                     {
-                        data.status == "working" &&
+                        data.status == "executando" &&
                         <>
                             {
                                 items.length > 0 &&
@@ -214,8 +214,8 @@ export default function OrderView({ navigation }) {
                             }
                             <Wrapper>
                                 <Input title="Nome" onChangeText={(value) => setItem({ ...item, name: value })} width={35} value={item.name} />
-                                <Input title="Quantidade" onChangeText={(value) => setItem({ ...item, amount: parseInt(value) })} keyboard="decimal-pad" width={25} value={item.amount.toString()} />
-                                <Input title="Valor" onChangeText={(value) => setItem({ ...item, price: parseInt(value) })} keyboard="decimal-pad" width={25} value={item.price.toString()} />
+                                <Input title="Quantidade" onChangeText={(value) => setItem({ ...item, amount: parseInt(value) })} keyboardType="decimal-pad" width={25} />
+                                <Input title="Valor" onChangeText={(value) => setItem({ ...item, price: parseInt(value) })} keyboardType="decimal-pad" width={25} />
                             </Wrapper>
                             <Button onPress={handleAddItemToItems}>
                                 <ButtonTitle>
@@ -226,13 +226,13 @@ export default function OrderView({ navigation }) {
                     }
                 </Card>
                 {
-                    data.status !== "close" &&
-                    <Button style={{ backgroundColor: data.status == "working" ? colors.red : colors.green }} onPress={handleUpdateStatusOrder}>
+                    data.status !== "finalizado" &&
+                    <Button style={{ backgroundColor: data.status == "executando" ? colors.red : colors.green }} onPress={handleUpdateStatusOrder}>
                         {
                             load ?
                                 <ActivityIndicator size={20} color={colors.white} animating />
                                 :
-                                data.status == "working" ?
+                                data.status == "executando" ?
                                     <ButtonTitle>
                                         Finalizar a manutenção
                                     </ButtonTitle>
