@@ -1,18 +1,17 @@
+import { StyleSheet } from 'react-native';
 import styled from 'styled-components/native';
 
 export const ContainerTouch = styled.TouchableOpacity`
     margin-top: 10px;
-    padding: 5px;
+    padding: 10px;
     width: 100%;
-    border-width: 2px;
     border-radius: 8px;
 `;
 
 export const Container = styled.View`
     margin-top: 10px;
-    padding: 5px;
+    padding: 10px;
     width: 100%;
-    border-width: 2px;
     border-radius: 8px;
 `;
 
@@ -39,3 +38,17 @@ export const Status = styled.Text`
 export const Label = styled.Text`
     font-size: 10px;
 `;
+
+export const styles = StyleSheet.create({
+    shadow: {
+        shadowColor: "#000",
+        shadowOffset: {
+            width: 0,
+            height: 1,
+        },
+        shadowOpacity: 0.20,
+        shadowRadius: 1.41,
+
+        elevation: 2,
+    }
+})

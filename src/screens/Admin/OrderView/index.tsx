@@ -7,6 +7,10 @@ import { AppContext } from "../../../context";
 import { ActivityIndicator } from "react-native";
 import Input from "../../../components/Input";
 import { IOrder } from "../../../interfaces/orders";
+import { useAppSelector } from "../../../hooks";
+import { useDispatch } from "react-redux";
+import { decrement, increment, reset } from "../../../features/counter/item-slice";
+import { showNotification } from "../../../utils/notification";
 
 interface Props {
     data: IOrder
@@ -19,6 +23,8 @@ interface Items {
 }
 
 export default function OrderView({ navigation }) {
+    const list = useAppSelector(state => state.item.list)
+    const dispatch = useDispatch()
     const route = useRoute()
     const { data } = route.params as Props
     const [load, setLoad] = useState<boolean>(false)
@@ -26,9 +32,9 @@ export default function OrderView({ navigation }) {
     const [items, setItems] = useState<Items[]>([])
     const [totalPrice, setTotalPrice] = useState<number>(0)
     const [item, setItem] = useState<Items>({
-        name: '',
-        amount: 0,
-        price: 0
+        name: null,
+        amount: null,
+        price: null
     })
     const { updateOrder } = useContext(AppContext)
 
@@ -41,7 +47,8 @@ export default function OrderView({ navigation }) {
                 navigation.navigate('ManageOrderofService')
                 return
             } else if (data.status == "executando") {
-                await updateOrder(data.id, { ...data, items: items, status: "finalizado", close_at: date })
+                await updateOrder(data.id, { ...data, items: list, status: "finalizado", close_at: date })
+                dispatch(reset())
                 navigation.navigate('ManageOrderofService')
                 return
             }
@@ -52,22 +59,37 @@ export default function OrderView({ navigation }) {
             setLoad(false)
         }
     }
-
-    function handleAddItemToItems() {
-        if (item.name != null) {
-            items.push(item)
-            setItem({
-                name: null,
-                amount: null,
-                price: null
+  
+    function handleAddItem() {
+        if(!item.name || !item.price || !item.amount) {
+            showNotification({
+                title: 'Aviso',
+                description:'Preencha todos os campos',
+                type:'warn',
+                duration: 3000
             })
-            if (items.length > 0) {
-                items.map((item) => {
-                    setTotalPrice(totalPrice + item.price)
-                })
-            }
+            return
         }
+        dispatch(increment(item))
+        setItem({
+            name:null,
+            amount:null,
+            price:null,
+        })
     }
+
+    function handleRemoveItem() {
+        dispatch(decrement())
+    }
+
+    function getTotalPrice(){
+        var total = 0
+        if(list.length>0){
+            list.map(item=> total += item.price * item.amount)
+        }
+        return total
+    }
+
     return (
         <>
             <Header title="Chamada" />
@@ -142,7 +164,7 @@ export default function OrderView({ navigation }) {
                         data.status == "executando" &&
                         <>
                             {
-                                items.length > 0 &&
+                                list.length > 0 &&
                                 <>
                                     <Label>
                                         Item usado
@@ -171,7 +193,7 @@ export default function OrderView({ navigation }) {
                                             </Item>
                                         </Wrapper>
                                         {
-                                            items?.map((item, index) => (
+                                            list?.map((item, index) => (
                                                 <Wrapper key={index}>
                                                     <Item>
                                                         <Description>
@@ -205,7 +227,7 @@ export default function OrderView({ navigation }) {
                                             <Item>
                                                 <Title>
                                                     R$
-                                                    {' ' + totalPrice}
+                                                    {' ' + getTotalPrice()}
                                                 </Title>
                                             </Item>
                                         </Wrapper>
@@ -213,15 +235,23 @@ export default function OrderView({ navigation }) {
                                 </>
                             }
                             <Wrapper>
-                                <Input title="Nome" onChangeText={(value) => setItem({ ...item, name: value })} width={35} value={item.name} />
-                                <Input title="Quantidade" onChangeText={(value) => setItem({ ...item, amount: parseInt(value) })} keyboardType="decimal-pad" width={25} />
-                                <Input title="Valor" onChangeText={(value) => setItem({ ...item, price: parseInt(value) })} keyboardType="decimal-pad" width={25} />
+                                <Input title="Nome" onChangeText={(value) => setItem({ ...item, name: value })} width={35} value={item.name}/>
+                                <Input title="Quantidade" onChangeText={(value) => setItem({ ...item, amount: parseInt(value) })} keyboardType="decimal-pad" width={25} value={item.amount || ''} />
+                                <Input title="Valor" onChangeText={(value) => setItem({ ...item, price: parseInt(value) })} keyboardType="decimal-pad" width={25} value={item.price || ''}/>
                             </Wrapper>
-                            <Button onPress={handleAddItemToItems}>
+                            <Button onPress={handleAddItem}>
                                 <ButtonTitle>
                                     Adicionar Item
                                 </ButtonTitle>
                             </Button>
+                            {
+                                list.length > 0 &&
+                                <Button onPress={handleRemoveItem} style={{backgroundColor: colors.red}}>
+                                    <ButtonTitle>
+                                        Remover Item
+                                    </ButtonTitle>
+                                </Button>
+                            }
                         </>
                     }
                 </Card>

@@ -4,6 +4,7 @@ import { Container, ContainerTouch, Description, Label, Status, Title, Wrapper }
 import { IOrder } from "../../interfaces/orders";
 import { View } from "react-native";
 import { AppContext } from "../../context";
+import { colors } from "../../constants/colors";
 
 interface Props {
     data: IOrder
@@ -16,7 +17,7 @@ export default function Order({ data, type = 'user' }: Props) {
     console.log(userAuth.administrator)
     if (userAuth.administrator) {
         return (
-            <ContainerTouch style={{ borderColor: data.status == "aberto" ? "green" : data.status == "finalizado" ? "red" : "orange" }} onPress={() => navigation.navigate("OrderView", { data: data })}>
+            <ContainerTouch style={{ backgroundColor: data.status == "aberto" ? colors.greenLight : data.status == "finalizado" ? colors.redLight : colors.yellowLight}} onPress={() => navigation.navigate("OrderView", { data: data })}>
                 <Label>
                     Titulo:
                 </Label>
@@ -51,7 +52,7 @@ export default function Order({ data, type = 'user' }: Props) {
         )
     }
     return (
-        <Container style={{ borderColor: data.status == "aberto" ? "green" : data.status == "finalizado" ? "red" : "orange" }} >
+        <Container style={{ backgroundColor: data.status == "aberto" ? colors.greenLight : data.status == "finalizado" ? colors.redLight : colors.yellowLight}} >
             <Label>
                 Titulo:
             </Label>

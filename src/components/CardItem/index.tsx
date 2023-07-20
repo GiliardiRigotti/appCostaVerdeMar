@@ -71,10 +71,10 @@ export default function CardItem({ id, name, description, type, data }: Props) {
             {
                 type !== 'notification' &&
                 <Options>
-                    <Button onPress={handleUpdate}>
+                    <Button style={styles.shadow} onPress={handleUpdate}>
                         <Icon name="pencil" size={20} color={colors.blue} />
                     </Button>
-                    <Button onPress={handleDelete}>
+                    <Button style={styles.shadow} onPress={handleDelete}>
                         {
                             isLoad ?
                                 <ActivityIndicator size='small' animating color={colors.red} />

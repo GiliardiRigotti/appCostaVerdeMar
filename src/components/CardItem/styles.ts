@@ -3,13 +3,11 @@ import { colors } from "../../constants/colors";
 import { StyleSheet } from "react-native";
 
 export const Container = styled.View`
-    width:90%;
+    width:100%;
     border-radius:10px;
     margin-top:10px;
-    border-width:1px;
-    border-color:#fffffa;
     padding:10px;
-    background-color:#fffffa;
+    background-color:${colors.gray};
 `;
 
 export const Wrapper = styled.View`
@@ -36,7 +34,6 @@ export const Description = styled.Text`
 `;
 
 export const Button = styled.TouchableOpacity`
-    border-width:1px;
     border-radius:10px;
     width: 30%;
     height: 30px;
