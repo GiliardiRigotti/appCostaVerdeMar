@@ -4,7 +4,7 @@ import { Container } from "./styles";
 export default function Footer() {
     return (
         <Container>
-            <Text>App Elevador</Text>
+            <Text>Costa Verde Mar Elevadores</Text>
         </Container>
     )
 }

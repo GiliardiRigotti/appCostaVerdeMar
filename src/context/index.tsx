@@ -63,6 +63,14 @@ function AppProvider({ children }: any) {
         }
     }
 
+    const clearStoreData = async () => {
+        try {
+            await AsyncStorage.clear()
+        } catch (e) {
+            console.log(e)
+        }
+    }
+
     const getData = async (key) => {
         try {
             const jsonValue = await AsyncStorage.getItem(key)
@@ -376,17 +384,21 @@ function AppProvider({ children }: any) {
             const q = query(collection(database, firebaseDocs.users), where("email", "==", email), where("password", "==", password));
             const querySnapshot = await getDocs(q);
             querySnapshot.forEach(async (doc) => {
+                console.log({
+                    id: doc.id,
+                    ...doc.data()
+                })
                 setUserAuth({
                     id: doc.id,
                     ...doc.data()
                 })
                 if (doc.data().administrator) {
-                    await storeData({
-                        email,
-                        password
-                    }, storageKey.user)
                     await getListUsers()
                 }
+                await storeData({
+                    email,
+                    password
+                }, storageKey.user)
                 await getListNotifications()
                 await getListOrderOfService()
                 await getListTips()
@@ -400,6 +412,7 @@ function AppProvider({ children }: any) {
     }, [])
 
     const logout = useCallback(async () => {
+        clearStoreData()
         setUserSigned(false)
         setUserAuth(null)
     }, [])
@@ -412,7 +425,9 @@ function AppProvider({ children }: any) {
         async function getUserStorage() {
             try {
                 const userStorage = await getData(storageKey.user)
-                await login(userStorage)
+                if(!!userStorage){
+                    await login(userStorage)
+                }
             } catch (error) {
                 console.log(error)
             }
