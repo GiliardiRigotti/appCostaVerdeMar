@@ -5,7 +5,7 @@ import { colors } from "../../constants/colors";
 import { showNotification } from "../../utils/notification";
 import { useContext, useState } from "react";
 import { AppContext } from "../../context";
-import { ActivityIndicator, TextInput, View } from "react-native";
+import { ActivityIndicator, Alert, TextInput, View } from "react-native";
 import { IUser } from "../../interfaces/user";
 import { ITip } from "../../interfaces/tip";
 
@@ -22,8 +22,26 @@ export default function CardItem({ id, name, description, type, data }: Props) {
     const { deleteUser, deleteTip } = useContext(AppContext)
     const navigation = useNavigation()
 
+    function handleDelete(){
+        Alert.alert(
+            'Aviso',
+            'Tem certeza que quer deletar?',
+            [
+              {
+                text: 'Não',
+                onPress: () => { },
+                style: 'cancel',
+              },
+              {
+                text: 'Sim',
+                onPress: () => deleteAction().then(),
+              },
+            ],
+            { cancelable: false },
+          );
+    }
 
-    async function handleDelete() {
+    async function deleteAction() {
         if (type == 'user') {
             await deleteUser(id)
         } else if (type == 'tip') {
