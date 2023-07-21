@@ -5,7 +5,7 @@ import { colors } from "../../constants/colors";
 import { showNotification } from "../../utils/notification";
 import { useContext, useState } from "react";
 import { AppContext } from "../../context";
-import { ActivityIndicator, View } from "react-native";
+import { ActivityIndicator, TextInput, View } from "react-native";
 import { IUser } from "../../interfaces/user";
 import { ITip } from "../../interfaces/tip";
 
@@ -61,7 +61,6 @@ export default function CardItem({ id, name, description, type, data }: Props) {
             <Title>
                 {name}
             </Title>
-
             {
                 description &&
                 <Description>
@@ -71,10 +70,10 @@ export default function CardItem({ id, name, description, type, data }: Props) {
             {
                 type !== 'notification' &&
                 <Options>
-                    <Button style={styles.shadow} onPress={handleUpdate}>
+                    <Button onPress={handleUpdate}>
                         <Icon name="pencil" size={20} color={colors.blue} />
                     </Button>
-                    <Button style={styles.shadow} onPress={handleDelete}>
+                    <Button onPress={handleDelete}>
                         {
                             isLoad ?
                                 <ActivityIndicator size='small' animating color={colors.red} />

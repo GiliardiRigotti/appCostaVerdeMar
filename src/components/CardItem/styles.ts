@@ -7,7 +7,7 @@ export const Container = styled.View`
     border-radius:10px;
     margin-top:10px;
     padding:10px;
-    background-color:${colors.gray};
+    background-color:${colors.grayLight};
 `;
 
 export const Wrapper = styled.View`
@@ -37,6 +37,7 @@ export const Button = styled.TouchableOpacity`
     border-radius:10px;
     width: 30%;
     height: 30px;
+    background-color: ${colors.gray};
     align-items:center;
     justify-content:center;
 `;

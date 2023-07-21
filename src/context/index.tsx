@@ -383,15 +383,21 @@ function AppProvider({ children }: any) {
         try {
             const q = query(collection(database, firebaseDocs.users), where("email", "==", email), where("password", "==", password));
             const querySnapshot = await getDocs(q);
-            querySnapshot.forEach(async (doc) => {
-                console.log({
-                    id: doc.id,
-                    ...doc.data()
+            if (querySnapshot.empty) {
+                showNotification({
+                    title: 'Erro no login',
+                    description: 'Verifique seu email e/ou senha',
+                    type: 'error',
+                    duration: 4000
                 })
+                return false
+            }
+            querySnapshot.forEach(async (doc) => {
                 setUserAuth({
                     id: doc.id,
                     ...doc.data()
                 })
+                setUserSigned(true)
                 if (doc.data().administrator) {
                     await getListUsers()
                 }
@@ -403,10 +409,14 @@ function AppProvider({ children }: any) {
                 await getListOrderOfService()
                 await getListTips()
             });
-            setUserSigned(true)
             return true
         } catch (error) {
-            console.log(error)
+            showNotification({
+                title: 'Erro no login',
+                description: error || 'Verifique sua conexão',
+                type: 'error',
+                duration: 4000
+            })
             return false
         }
     }, [])
@@ -425,7 +435,7 @@ function AppProvider({ children }: any) {
         async function getUserStorage() {
             try {
                 const userStorage = await getData(storageKey.user)
-                if(!!userStorage){
+                if (!!userStorage) {
                     await login(userStorage)
                 }
             } catch (error) {

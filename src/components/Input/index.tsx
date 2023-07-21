@@ -9,9 +9,10 @@ interface Props {
     value?: string
     width?: number
     keyboardType?: "decimal-pad" | "default"
+    max?: number
 }
 
-export default function Input({ title, onChangeText, placeholder, secureTextEntry = false, textArea = false, value, width = 50, keyboardType = "default" }: Props) {
+export default function Input({ title, onChangeText, placeholder, secureTextEntry = false, textArea = false, value, width = 50, keyboardType = "default", max = 100 }: Props) {
     return (
         <Container style={{ width: `${width}%` }}>
             <Title>
@@ -31,7 +32,7 @@ export default function Input({ title, onChangeText, placeholder, secureTextEntr
                             keyboardType={keyboardType}
                         />
                         :
-                        <TextInput placeholder={placeholder} onChangeText={onChangeText} secureTextEntry={secureTextEntry} value={value} keyboardType={keyboardType} />
+                        <TextInput placeholder={placeholder} onChangeText={onChangeText} secureTextEntry={secureTextEntry} value={value} keyboardType={keyboardType} maxLength={max} />
                 }
             </Box>
         </Container>

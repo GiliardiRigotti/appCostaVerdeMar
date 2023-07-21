@@ -2,7 +2,7 @@ import styled from "styled-components/native"
 import { colors } from "../../constants/colors"
 
 export const Container = styled.View`
-    margin-top:15px;
+    margin-top:8px;
 `;
 
 export const Box = styled.View`
