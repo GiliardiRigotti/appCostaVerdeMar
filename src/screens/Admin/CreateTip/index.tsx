@@ -1,8 +1,7 @@
 import { useNavigation, useRoute } from "@react-navigation/native";
 import Header from "../../../components/Header";
 import Input from "../../../components/Input";
-import { Container } from "../../../styles/global";
-import { Button, ButtonCancel, ButtonTitle } from "./styles";
+import { Button, ButtonCancel, ButtonTitle, Container } from "./styles";
 import { ActivityIndicator, TextInput } from "react-native";
 import { useContext, useEffect, useState } from "react";
 import { ITip } from "../../../interfaces/tip";
@@ -59,8 +58,8 @@ export default function CreateTip() {
         <>
             <Header title="Criar Recomendação" />
             <Container>
-                <Input title="Titulo" onChangeText={(value) => setForm({ ...form, title: value })} value={form.title} />
-                <Input title="Mensagem" onChangeText={(value) => setForm({ ...form, description: value })} textArea value={form.description} />
+                <Input title="Titulo" onChangeText={(value) => setForm({ ...form, title: value })} value={form.title} width={85} />
+                <Input title="Mensagem" onChangeText={(value) => setForm({ ...form, description: value })} textArea value={form.description} width={85} />
                 <Button onPress={handleCreateTip} disable={isLoading}>
                     {
                         isLoading ?

@@ -30,7 +30,6 @@ export default function ListNotifications() {
                 </ScrollView>
             </Container>
             <Footer />
-            <AddButton onPress={() => navigation.navigate("CreateNotification")} />
         </>
 
     )

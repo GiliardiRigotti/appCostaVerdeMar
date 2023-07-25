@@ -1,8 +1,7 @@
 import { useNavigation } from "@react-navigation/native";
 import Header from "../../../components/Header";
 import Input from "../../../components/Input";
-import { Container } from "../../../styles/global";
-import { Button, ButtonCancel, ButtonTitle } from "./styles";
+import { Button, ButtonCancel, ButtonTitle, Container } from "./styles";
 import { useContext, useState } from "react";
 import { INotification } from "../../../interfaces/notification";
 import { showNotification } from "../../../utils/notification";
@@ -52,8 +51,8 @@ export default function CreateNotification() {
         <>
             <Header title="Enviar uma notificação" />
             <Container>
-                <Input title="Titulo" onChangeText={(value) => setForm({ ...form, title: value })} />
-                <Input title="Mensagem" onChangeText={(value) => setForm({ ...form, description: value })} textArea />
+                <Input title="Titulo" onChangeText={(value) => setForm({ ...form, title: value })} width={85} />
+                <Input title="Mensagem" onChangeText={(value) => setForm({ ...form, description: value })} textArea width={85} />
                 <Button onPress={handleSendNotification} disable={isLoading}>
                     {
                         isLoading ?

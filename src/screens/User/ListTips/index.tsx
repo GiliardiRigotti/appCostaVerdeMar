@@ -30,7 +30,6 @@ export default function ListTips() {
                 </ScrollView>
             </Container>
             <Footer />
-            <AddButton onPress={() => navigation.navigate("CreateTip")} />
         </>
     )
 }
