@@ -1,21 +1,20 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react'
+import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import * as Crypto from 'expo-crypto';
 
 import { ISignIn, IUser } from '../interfaces/user';
 import { INotification } from '../interfaces/notification';
 import { ITip } from '../interfaces/tip';
 import { showNotification } from '../utils/notification';
-import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import database from '../config/firebase';
 import { IOrder } from '../interfaces/orders';
-
 
 interface AppContextData {
     userAuth: IUser | null
     userSigned: boolean
     login: ({ email, password }: ISignIn) => Promise<boolean>
     logout: () => void
-    findUser: ({ email, password }: ISignIn) => Promise<IUser>
     forgotPassword: ({ email }: ISignIn) => Promise<boolean>
     createUser: (newUser: IUser) => Promise<boolean>
     updateUser: (id: string, updateUser: IUser) => Promise<boolean>
@@ -82,7 +81,7 @@ function AppProvider({ children }: any) {
 
     const createUser = useCallback(async (newUser: IUser) => {
         const usersRef = collection(database, firebaseDocs.users);
-        addDoc(usersRef, newUser)
+        addDoc(usersRef, {...newUser, password: enigma(newUser.password)})
             .then((docRef) => {
                 showNotification({
                     title: "Sucesso",
@@ -143,28 +142,6 @@ function AppProvider({ children }: any) {
                 type: "error"
             })
             return false
-        }
-    }, [])
-
-    const findUser = useCallback(async (id: string) => {
-        console.log("Find")
-        try {
-            const q = query(collection(database, firebaseDocs.users), where("id", "==", id));
-            const querySnapshot = await getDocs(q);
-            querySnapshot.forEach(async (doc) => {
-                console.log({
-                    id: doc.id,
-                    ...doc.data()
-                })
-                return {
-                    id: doc.id,
-                    ...doc.data()
-                }
-
-            });
-        } catch (error) {
-            console.log(error)
-            return null
         }
     }, [])
 
@@ -379,9 +356,18 @@ function AppProvider({ children }: any) {
         })
     }, [])
 
+    const enigma = useCallback(async (text: string): Promise<string> => {
+        const digest = await Crypto.digestStringAsync(
+          Crypto.CryptoDigestAlgorithm.SHA512,
+          text,
+        );
+        return digest;
+      }, []);
+
     const login = useCallback(async ({ email, password }: ISignIn) => {
         try {
-            const q = query(collection(database, firebaseDocs.users), where("email", "==", email), where("password", "==", password));
+            const crypto = await enigma(password);
+            const q = query(collection(database, firebaseDocs.users), where("email", "==", email), where("password", "==", crypto));
             const querySnapshot = await getDocs(q);
             if (querySnapshot.empty) {
                 showNotification({
@@ -446,7 +432,7 @@ function AppProvider({ children }: any) {
     }, [])
 
     return (
-        <AppContext.Provider value={{ logout, userSigned, findUser, userAuth, login, listUsers, listNotifications, listTips, forgotPassword, createUser, createTip, createNotification, updateUser, deleteUser, updateTip, deleteTip, createOrder, deleteOrder, updateOrder, listOrders }}>
+        <AppContext.Provider value={{ logout, userSigned, userAuth, login, listUsers, listNotifications, listTips, forgotPassword, createUser, createTip, createNotification, updateUser, deleteUser, updateTip, deleteTip, createOrder, deleteOrder, updateOrder, listOrders }}>
             {children}
         </AppContext.Provider>
     )

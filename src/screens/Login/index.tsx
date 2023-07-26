@@ -10,7 +10,7 @@ import { colors } from "../../constants/colors";
 
 export default function Login() {
     const [isLoad, setIsLoad] = useState<boolean>(false)
-    const { login, findUser, userAuth } = useContext(AppContext)
+    const { login } = useContext(AppContext)
     const [formLogin, setFormLogin] = useState<ISignIn>({
         email: '',
         password: ''
@@ -19,7 +19,6 @@ export default function Login() {
     async function handleSignIn() {
         setIsLoad(true)
         if (formLogin.email != '' && formLogin.password != '') {
-            //const auth = await login(formLogin)
             await login(formLogin)
             setIsLoad(false)
             return
@@ -36,7 +35,7 @@ export default function Login() {
     async function handleForgotPassword() {
         setIsLoad(true)
         if (formLogin.email != '') {
-            await login(formLogin)
+            
             setIsLoad(false)
             return
         }
@@ -66,17 +65,7 @@ export default function Login() {
                         </ButtonTitle>
                 }
             </Button>
-            <Link onPress={handleForgotPassword} disable={isLoad}>
-                {
-                    isLoad ?
-                        <ActivityIndicator size="small" animating color={colors.white} />
-                        :
-                        <LinkTitle>
-                            Esqueceu a senha?
-                        </LinkTitle>
-                }
-
-            </Link>
+            
         </Container>
     )
 }

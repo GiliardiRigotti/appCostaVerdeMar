@@ -20,4 +20,12 @@ export const TextInput = styled.TextInput`
     padding:5px;
     background-color: ${colors.white};
     border-radius: 8px;
+    font-size: 18px;
+`;
+
+export const Wrapper = styled.View`
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding-right: 10px;
 `;
