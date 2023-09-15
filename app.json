@@ -31,6 +31,14 @@
       "eas": {
         "projectId": "e8a76c10-642c-4595-8c09-b5eb2540a6a7"
       }
-    }
+    },
+    "plugins": [
+      [
+        "expo-updates",
+        {
+          "username": "giliardi"
+        }
+      ]
+    ]
   }
 }
