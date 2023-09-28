@@ -1,5 +1,5 @@
 export interface IUser {
-    id?: string | null
+    id?: string
     name: string
     phone: string
     email: string
@@ -10,6 +10,7 @@ export interface IUser {
     number: string
     password: string
     administrator: boolean
+    contractUrl?: string
 }
 
 export interface IUserAuth {

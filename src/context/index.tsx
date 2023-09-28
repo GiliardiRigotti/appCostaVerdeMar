@@ -1,14 +1,14 @@
 import React, { createContext, useCallback, useEffect, useState } from 'react'
 import { addDoc, collection, deleteDoc, doc, getDocs, onSnapshot, query, updateDoc, where } from 'firebase/firestore';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import * as Crypto from 'expo-crypto';
 
 import { ISignIn, IUser } from '../interfaces/user';
 import { INotification } from '../interfaces/notification';
 import { ITip } from '../interfaces/tip';
 import { showNotification } from '../utils/notification';
-import database from '../config/firebase';
+import { database, storage } from '../config/firebase';
 import { IOrder } from '../interfaces/orders';
+import { enigma } from '../utils/enigma';
 
 interface AppContextData {
     userAuth: IUser | null
@@ -81,7 +81,7 @@ function AppProvider({ children }: any) {
 
     const createUser = useCallback(async (newUser: IUser) => {
         const usersRef = collection(database, firebaseDocs.users);
-        addDoc(usersRef, {...newUser, password: enigma(newUser.password)})
+        addDoc(usersRef, newUser)
             .then((docRef) => {
                 showNotification({
                     title: "Sucesso",
@@ -114,6 +114,7 @@ function AppProvider({ children }: any) {
             })
             return true
         } catch (error) {
+            console.error('Erro Update User: ', error)
             showNotification({
                 title: "Erro",
                 description: error,
@@ -355,14 +356,6 @@ function AppProvider({ children }: any) {
             setListOrders(data)
         })
     }, [])
-
-    const enigma = useCallback(async (text: string): Promise<string> => {
-        const digest = await Crypto.digestStringAsync(
-          Crypto.CryptoDigestAlgorithm.SHA512,
-          text,
-        );
-        return digest;
-      }, []);
 
     const login = useCallback(async ({ email, password }: ISignIn) => {
         try {

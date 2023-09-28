@@ -7,6 +7,7 @@ import { ISignIn } from "../../interfaces/user";
 import { showNotification } from "../../utils/notification";
 import { AppContext } from "../../context";
 import { colors } from "../../constants/colors";
+import { Load } from "../../components/LoadLogin";
 
 export default function Login() {
     const [isLoad, setIsLoad] = useState<boolean>(false)
@@ -35,7 +36,7 @@ export default function Login() {
     async function handleForgotPassword() {
         setIsLoad(true)
         if (formLogin.email != '') {
-            
+
             setIsLoad(false)
             return
         }
@@ -46,6 +47,10 @@ export default function Login() {
             duration: 2000,
         })
         setIsLoad(false)
+    }
+
+    if (isLoad) {
+        return <Load />
     }
 
     return (
@@ -65,7 +70,7 @@ export default function Login() {
                         </ButtonTitle>
                 }
             </Button>
-            
+
         </Container>
     )
 }

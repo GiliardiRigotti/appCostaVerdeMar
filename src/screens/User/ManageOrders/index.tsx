@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useMemo } from "react";
 import Header from "../../../components/Header";
 import { AppContext } from "../../../context";
 import { ScrollView } from "react-native";
@@ -10,15 +10,19 @@ import { Container } from "../../../styles/global";
 
 
 export default function ManageOrders({ navigation }) {
-    const { listOrders } = useContext(AppContext)
+    const { listOrders, userAuth } = useContext(AppContext)
     console.log(listOrders)
+    const list = useMemo(() => {
+        const listFiltered = listOrders.filter(item => item.idClient == userAuth.id)
+        return listFiltered
+    }, [listOrders])
     return (
         <>
             <Header title="Suporte" />
             <Container>
                 <ContainerScroll>
                     {
-                        listOrders.map((item, index) => <Order key={item.id} data={item} />)
+                        list.map((item, index) => <Order key={item.id} data={item} />)
                     }
                 </ContainerScroll>
             </Container>

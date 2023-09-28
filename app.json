@@ -38,6 +38,12 @@
         {
           "username": "giliardi"
         }
+      ],
+      [
+        "expo-document-picker",
+        {
+          "iCloudContainerEnvironment": "Production"
+        }
       ]
     ]
   }
